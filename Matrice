@@ -1,0 +1,90 @@
+import java.util.Scanner; // pentru citirea de la tastatură
+
+// Definim clasa Matrice
+public class Matrice {
+    private int n;           // dimensiunea matricei (n × n)
+    private int[][] a;       // matricea propriu-zisă
+
+    // ---------------- CONSTRUCTOR ----------------
+    public Matrice(int n) {
+        this.n = n;
+        a = new int[n][n]; // alocăm spațiu pentru matrice
+
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Introduceți elementele matricei de dimensiune " + n + "x" + n + ":");
+
+        // Citim elementele de la tastatură
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                System.out.print("a[" + i + "][" + j + "] = ");
+                a[i][j] = sc.nextInt();
+            }
+        }
+    }
+
+    // ---------------- AFIȘAREA MATRICEI ----------------
+    public void afisareMatrice() {
+        System.out.println("Matricea este:");
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                System.out.print(a[i][j] + " ");
+            }
+            System.out.println(); // trecem la rândul următor
+        }
+    }
+
+    // ---------------- SUMA DIAGONALEI PRINCIPALE ----------------
+    public int sumaDiagonalaPrincipala() {
+        int suma = 0;
+        for (int i = 0; i < n; i++) {
+            suma += a[i][i]; // elementele de pe diagonala principală au același indice i
+        }
+        return suma;
+    }
+
+    // ---------------- SUMA DIAGONALEI SECUNDARE ----------------
+    public int sumaDiagonalaSecundara() {
+        int suma = 0;
+        for (int i = 0; i < n; i++) {
+            suma += a[i][n - 1 - i]; // elementele de pe diagonala secundară
+        }
+        return suma;
+    }
+
+    // ---------------- VERIFICARE SIMETRIE ----------------
+    public boolean esteSimetrica() {
+        for (int i = 0; i < n; i++) {
+            for (int j = i + 1; j < n; j++) { 
+                // verificăm doar deasupra diagonalei (nu are rost să verificăm de două ori)
+                if (a[i][j] != a[j][i]) {
+                    return false; // dacă găsim o diferență, nu e simetrică
+                }
+            }
+        }
+        return true;
+    }
+
+    // ---------------- METODA MAIN ----------------
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Introduceți dimensiunea matricei n = ");
+        int n = sc.nextInt();
+
+        // creăm un obiect de tip Matrice
+        Matrice m = new Matrice(n);
+
+        // afișăm matricea
+        m.afisareMatrice();
+
+        // afișăm sumele diagonalelor
+        System.out.println("Suma diagonalei principale: " + m.sumaDiagonalaPrincipala());
+        System.out.println("Suma diagonalei secundare: " + m.sumaDiagonalaSecundara());
+
+        // verificăm simetria
+        if (m.esteSimetrica()) {
+            System.out.println("Matricea este simetrică față de diagonala principală.");
+        } else {
+            System.out.println("Matricea NU este simetrică.");
+        }
+    }
+}
